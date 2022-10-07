@@ -1,4 +1,6 @@
 /** @format */
+// import Lightbox from "./lightbox";
+// Lightbox.activate
 
 const cart = document.getElementById("myCart");
 const cartContainer = document.getElementById("cart-container");
@@ -30,19 +32,27 @@ const CheckOut = document.getElementById("CheckOut");
 const Trash = document.getElementById("delete");
 const CheckBtn = document.getElementById("check-Btn");
 const addCart = document.getElementById("addCart");
+const CheckOutInfo = document.getElementById("cart-container");
 let NumberCart = 0;
 
 increment.addEventListener("click", () => {
   NumberCart += 1;
 
   cartValue.innerText = NumberCart;
+  if (NumberCart <= 0) {
+    CheckOutInfo.innerHTML = "Your List is empty";
+  }
 });
 addCart.addEventListener("click", () => {
   boughtValue.innerHTML = NumberCart;
-  
+  if (NumberCart <= 0) {
+    CheckOutInfo.innerHTML = "Your List is empty";
+  }
 });
+
 decrement.addEventListener("click", () => {
   if (NumberCart <= 0) {
+    CheckOutInfo.innerHTML = "Your List is empty";
     alert("Cant go less than 0 chief");
     return;
   }
@@ -60,3 +70,36 @@ let totalValue = (price * percentage) / 100;
 percent.innerHTML = `$${percentage}`;
 actualPrice.innerHTML = `$${price}`;
 discount.innerHTML = `$${totalValue}`;
+
+function changeImage(e) {
+  activeImage.src = e.target.src;
+}
+
+const activeImage = document.getElementById("active-img");
+const productImages = document.querySelectorAll(".shoe-img");
+productImages.forEach((image) => image.addEventListener("click", changeImage));
+
+const rightControl = document.getElementById("right");
+const leftControl = document.getElementById("left");
+
+for (i = 0; i < productImages.length; i++) {
+  let idx = 0;
+
+  rightControl.addEventListener("click", () => {
+    idx++;
+    if (idx > productImages.length - 1) {
+      idx = 0;
+    }
+    let newImage = productImages[idx].src;
+    activeImage.src = newImage;
+  });
+
+  leftControl.addEventListener("click", () => {
+    idx--;
+    if (idx < 0) {
+      idx = productImages.length - 1;
+    }
+    let newImage = productImages[idx].src;
+    activeImage.src = newImage;
+  });
+}
